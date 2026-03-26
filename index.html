@@ -9083,14 +9083,39 @@
         let selectedAnswers = [];
 
         // sessionHistory[questionIndex] = 'correct' | 'incorrect' | undefined
-        const sessionHistory = {};
+        // Backed by localStorage so it survives page reloads
+        const LS_HISTORY_KEY = 'awsQuizHistory';
+        const LS_POSITION_KEY = 'awsQuizPosition';
+
+        const sessionHistory = (function () {
+            try {
+                return JSON.parse(localStorage.getItem(LS_HISTORY_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        })();
+
+        function saveHistory() {
+            try { localStorage.setItem(LS_HISTORY_KEY, JSON.stringify(sessionHistory)); } catch (e) {}
+        }
+
+        function savePosition(index) {
+            try { localStorage.setItem(LS_POSITION_KEY, index); } catch (e) {}
+        }
+
+        function loadPosition() {
+            try {
+                const v = parseInt(localStorage.getItem(LS_POSITION_KEY), 10);
+                return (!isNaN(v) && v >= 0 && v < awsQuestions.length) ? v : 0;
+            } catch (e) { return 0; }
+        }
 
         function initQuiz() {
             const total = awsQuestions.length;
             document.getElementById('totalQuestions').textContent = total;
             document.getElementById('totalQuestions2').textContent = total;
             updateStats();
-            showQuestion(0);
+            showQuestion(loadPosition());
         }
 
         function updateStats() {
@@ -9114,6 +9139,7 @@
 
         function showQuestion(index) {
             currentQuestionIndex = index;
+            savePosition(index);
             const q = awsQuestions[index];
             selectedAnswers = [];
             document.getElementById('currentQuestion').textContent = index + 1;
@@ -9207,6 +9233,7 @@
             // Record in history (only update if not already answered correctly)
             if (!sessionHistory[currentQuestionIndex] || sessionHistory[currentQuestionIndex] === 'incorrect') {
                 sessionHistory[currentQuestionIndex] = outcome;
+                saveHistory();
             }
             updateStats();
             refreshHistoryIfVisible();
@@ -9249,9 +9276,11 @@
         function resetSession() {
             if (!confirm('Reset all session history? This cannot be undone.')) return;
             Object.keys(sessionHistory).forEach(k => delete sessionHistory[k]);
+            saveHistory();
+            try { localStorage.removeItem(LS_POSITION_KEY); } catch (e) {}
             updateStats();
             refreshHistoryIfVisible();
-            showQuestion(currentQuestionIndex);
+            showQuestion(0);
         }
 
         // ---- History panel ----
