@@ -43,7 +43,7 @@
           }
           .option {
               margin: 10px 0;
-              padding: 10px;
+              padding: 0;
               background-color: white;
               border: 1px solid #ddd;
               border-radius: 4px;
@@ -53,6 +53,14 @@
           .option:hover {
               background-color: #e8f4f8;
               border-color: #ff9900;
+          }
+          .option label {
+              display: block;
+              width: 100%;
+              padding: 10px;
+              cursor: pointer;
+              box-sizing: border-box;
+              user-select: none;
           }
           .option.correct {
               background-color: #d4edda;
@@ -203,6 +211,25 @@
               border-radius: 8px;
               transition: width 0.4s;
           }
+          .copy-toast {
+              position: fixed;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%) translateY(20px);
+              background: #232f3e;
+              color: #fff;
+              padding: 10px 22px;
+              border-radius: 20px;
+              font-size: 14px;
+              opacity: 0;
+              transition: opacity 0.3s, transform 0.3s;
+              pointer-events: none;
+              z-index: 9999;
+          }
+          .copy-toast.show {
+              opacity: 1;
+              transform: translateX(-50%) translateY(0);
+          }
       </style>
   </head>
   <body>
@@ -230,6 +257,7 @@
               <button onclick="checkAnswer()">Check Answer</button>
               <button onclick="nextQuestion()">Next &#8594;</button>
               <button onclick="randomQuestion()">&#9645; Random</button>
+              <button onclick="copyForLLM()" style="background:#5a67d8;" title="Copy question as prompt for ChatGPT / Claude / etc.">&#128203; Ask LLM</button>
           </div>
           <div id="result" class="result" style="display: none;"></div>
           <div class="history-panel">
@@ -247,6 +275,7 @@
               <div id="historyList"></div>
           </div>
       </div>
+      <div class="copy-toast" id="copyToast">✔ Copied to clipboard!</div>
       <script>
           const awsQuestions = [
     {
@@ -9092,7 +9121,7 @@
             let html = '<div class="question"><div class="question-text">Question ' + q.id + ': ' + q.question + '</div>';
             q.options.forEach((opt, i) => {
                 const inputType = q.options.filter(o => o.correct).length > 1 ? 'checkbox' : 'radio';
-                html += '<div class="option" onclick="toggleOption(' + i + ')"><label><input type="' + inputType + '" name="answer" value="' + i + '" onchange="selectOption(' + i + ')">' + opt.text + '</label></div>';
+                html += '<div class="option"><label><input type="' + inputType + '" name="answer" value="' + i + '" onchange="selectOption(' + i + ')">&nbsp;' + opt.text + '</label></div>';
             });
             html += '</div>';
             document.getElementById('questionContainer').innerHTML = html;
@@ -9113,12 +9142,6 @@
             }
         }
 
-        function toggleOption(index) {
-            const cb = document.querySelector('input[value="' + index + '"]');
-            cb.checked = !cb.checked;
-            selectOption(index);
-        }
-
         function selectOption(index) {
             const q = awsQuestions[currentQuestionIndex];
             const isMulti = q.options.filter(o => o.correct).length > 1;
@@ -9129,6 +9152,37 @@
             } else {
                 selectedAnswers = [index];
             }
+        }
+
+        function copyForLLM() {
+            const q = awsQuestions[currentQuestionIndex];
+            const optionLines = q.options.map((opt, i) => {
+                const letter = String.fromCharCode(65 + i); // A, B, C, ...
+                return letter + ') ' + opt.text;
+            }).join('\n');
+            const prompt =
+                'Answer and explain this AWS certification exam question:\n\n' +
+                'Question ' + q.id + ': ' + q.question + '\n\n' +
+                optionLines + '\n\n' +
+                'Please identify the correct answer(s) and explain why each option is correct or incorrect.';
+            navigator.clipboard.writeText(prompt).then(() => {
+                const toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2200);
+            }).catch(() => {
+                // Fallback for browsers without clipboard API
+                const ta = document.createElement('textarea');
+                ta.value = prompt;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                const toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2200);
+            });
         }
 
         function checkAnswer() {
