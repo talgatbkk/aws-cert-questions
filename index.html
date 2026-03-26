@@ -1,127 +1,262 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Developer Associate Practice Questions</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #232f3e;
-            border-bottom: 3px solid #ff9900;
-            padding-bottom: 10px;
-        }
-        .stats {
-            background-color: #f0f8ff;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .question {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #fafafa;
-            border-left: 4px solid #232f3e;
-        }
-        .question-text {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #232f3e;
-        }
-        .option {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .option:hover {
-            background-color: #e8f4f8;
-            border-color: #ff9900;
-        }
-        .option.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
-        .option.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-        }
-        button {
-            background-color: #ff9900;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 10px 5px;
-        }
-        button:hover {
-            background-color: #ec7211;
-        }
-        .controls {
-            margin: 20px 0;
-            text-align: center;
-        }
-        .result {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .result.correct {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .result.incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>AWS Developer Associate (DVA-C02) Practice Questions</h1>
-        <div class="stats">
-            <strong>Total Questions:</strong> <span id="totalQuestions">0</span><br>
-            <strong>Current Question:</strong> <span id="currentQuestion">0</span>
-        </div>
-        <div id="questionContainer"></div>
-        <div class="controls">
-            <button onclick="previousQuestion()">Previous</button>
-            <button onclick="checkAnswer()">Check Answer</button>
-            <button onclick="nextQuestion()">Next</button>
-            <button onclick="randomQuestion()">Random</button>
-        </div>
-        <div id="result" class="result" style="display: none;"></div>
-    </div>
-    <script>
-        const awsQuestions = [
-  {
-    "id": 1,
-    "question": "Which of the following are good use cases for how Amazon ElastiCache can help an application? (Select TWO)",
-    "options": [
-      {
-        "text": "Improve the performance of S3 PUT operations.",
-        "correct": false
-      },
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>AWS Developer Associate Practice Questions</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              max-width: 900px;
+              margin: 0 auto;
+              padding: 20px;
+              background-color: #f5f5f5;
+          }
+          .container {
+              background-color: white;
+              border-radius: 8px;
+              padding: 30px;
+              box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          }
+          h1 {
+              color: #232f3e;
+              border-bottom: 3px solid #ff9900;
+              padding-bottom: 10px;
+          }
+          .stats {
+              background-color: #f0f8ff;
+              padding: 15px;
+              border-radius: 5px;
+              margin: 20px 0;
+          }
+          .question {
+              margin: 30px 0;
+              padding: 20px;
+              background-color: #fafafa;
+              border-left: 4px solid #232f3e;
+          }
+          .question-text {
+              font-size: 18px;
+              font-weight: bold;
+              margin-bottom: 15px;
+              color: #232f3e;
+          }
+          .option {
+              margin: 10px 0;
+              padding: 10px;
+              background-color: white;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              cursor: pointer;
+              transition: all 0.3s;
+          }
+          .option:hover {
+              background-color: #e8f4f8;
+              border-color: #ff9900;
+          }
+          .option.correct {
+              background-color: #d4edda;
+              border-color: #28a745;
+          }
+          .option.incorrect {
+              background-color: #f8d7da;
+              border-color: #dc3545;
+          }
+          button {
+              background-color: #ff9900;
+              color: white;
+              padding: 12px 24px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+              margin: 10px 5px;
+          }
+          button:hover {
+              background-color: #ec7211;
+          }
+          .controls {
+              margin: 20px 0;
+              text-align: center;
+          }
+          .result {
+              margin: 20px 0;
+              padding: 15px;
+              border-radius: 5px;
+              font-weight: bold;
+              text-align: center;
+          }
+          .result.correct {
+              background-color: #d4edda;
+              color: #155724;
+          }
+          .result.incorrect {
+              background-color: #f8d7da;
+              color: #721c24;
+          }
+          .session-stats {
+              display: flex;
+              gap: 12px;
+              flex-wrap: wrap;
+              margin: 16px 0;
+          }
+          .stat-badge {
+              padding: 8px 16px;
+              border-radius: 20px;
+              font-weight: bold;
+              font-size: 14px;
+          }
+          .stat-badge.total { background: #e2e8f0; color: #2d3748; }
+          .stat-badge.correct { background: #d4edda; color: #155724; }
+          .stat-badge.incorrect { background: #f8d7da; color: #721c24; }
+          .stat-badge.unanswered { background: #fff3cd; color: #856404; }
+          .goto-bar {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              margin: 12px 0;
+              flex-wrap: wrap;
+          }
+          .goto-bar input {
+              width: 80px;
+              padding: 8px 10px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              font-size: 15px;
+              text-align: center;
+          }
+          .goto-bar button {
+              margin: 0;
+              padding: 8px 16px;
+              font-size: 14px;
+          }
+          .history-panel {
+              margin-top: 24px;
+              border-top: 2px solid #e2e8f0;
+              padding-top: 16px;
+          }
+          .history-panel h3 {
+              color: #232f3e;
+              margin-bottom: 10px;
+              font-size: 16px;
+          }
+          .history-toggle {
+              background: #232f3e;
+              color: white;
+              padding: 7px 16px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 14px;
+              margin-bottom: 10px;
+          }
+          .history-toggle:hover { background: #3a4a5c; }
+          #historyList {
+              display: none;
+              max-height: 320px;
+              overflow-y: auto;
+              border: 1px solid #e2e8f0;
+              border-radius: 6px;
+          }
+          .history-item {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              padding: 8px 14px;
+              border-bottom: 1px solid #f0f0f0;
+              cursor: pointer;
+              transition: background 0.2s;
+              font-size: 14px;
+          }
+          .history-item:last-child { border-bottom: none; }
+          .history-item:hover { background: #f0f8ff; }
+          .history-item .hi-status {
+              min-width: 22px;
+              height: 22px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 13px;
+              font-weight: bold;
+          }
+          .history-item .hi-status.correct { background: #d4edda; color: #155724; }
+          .history-item .hi-status.incorrect { background: #f8d7da; color: #721c24; }
+          .history-item .hi-qnum { font-weight: bold; min-width: 30px; color: #ff9900; }
+          .history-item .hi-text {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 600px;
+              color: #444;
+          }
+          .progress-bar-wrap {
+              background: #e2e8f0;
+              border-radius: 8px;
+              height: 8px;
+              margin: 8px 0 4px 0;
+              overflow: hidden;
+          }
+          .progress-bar-fill {
+              height: 100%;
+              background: linear-gradient(to right, #28a745, #ff9900);
+              border-radius: 8px;
+              transition: width 0.4s;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <h1>AWS Developer Associate (DVA-C02) Practice Questions</h1>
+          <div class="stats">
+              <div class="session-stats">
+                  <span class="stat-badge total">Total: <span id="totalQuestions">0</span></span>
+                  <span class="stat-badge correct">✔ Correct: <span id="correctCount">0</span></span>
+                  <span class="stat-badge incorrect">✘ Incorrect: <span id="incorrectCount">0</span></span>
+                  <span class="stat-badge unanswered">◯ Unanswered: <span id="unansweredCount">0</span></span>
+              </div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+              <small style="color:#666">Question <strong><span id="currentQuestion">0</span></strong> of <span id="totalQuestions2">0</span></small>
+          </div>
+          <div class="goto-bar">
+              <label for="gotoInput" style="font-weight:bold;font-size:14px;">Go to question #</label>
+              <input type="number" id="gotoInput" min="1" placeholder="e.g. 42" onkeydown="if(event.key==='Enter') gotoQuestion()">
+              <button onclick="gotoQuestion()">Go</button>
+              <button onclick="resetSession()" style="background:#6c757d;">Reset Session</button>
+          </div>
+          <div id="questionContainer"></div>
+          <div class="controls">
+              <button onclick="previousQuestion()">&#8592; Previous</button>
+              <button onclick="checkAnswer()">Check Answer</button>
+              <button onclick="nextQuestion()">Next &#8594;</button>
+              <button onclick="randomQuestion()">&#9645; Random</button>
+          </div>
+          <div id="result" class="result" style="display: none;"></div>
+          <div class="history-panel">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                  <button class="history-toggle" onclick="toggleHistory()">&#128203; Show Answer History</button>
+                  <button class="history-toggle" id="reviewBtn" onclick="startReview()" style="background:#dc3545;" disabled>&#8635; Review Incorrect (<span id="incorrectCountReview">0</span>)</button>
+              </div>
+              <div id="reviewBanner" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border:1px solid #ffc107;border-radius:6px;font-size:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <strong>&#128270; Review mode:</strong>
+                  <span id="reviewProgress"></span>
+                  <button onclick="reviewPrev()" style="padding:5px 12px;font-size:13px;margin:0;">&#8592; Prev</button>
+                  <button onclick="reviewNext()" style="padding:5px 12px;font-size:13px;margin:0;">Next &#8594;</button>
+                  <button onclick="exitReview()" style="padding:5px 12px;font-size:13px;margin:0;background:#6c757d;">&#10005; Exit Review</button>
+              </div>
+              <div id="historyList"></div>
+          </div>
+      </div>
+      <script>
+          const awsQuestions = [
+    {
+      "id": 1,
+      "question": "Which of the following are good use cases for how Amazon ElastiCache can help an application? (Select TWO)",
+      "options": [
+        {
+          "text": "Improve the performance of S3 PUT operations.",
+          "correct": false
+        },
       {
         "text": "Improve the latency of deployments performed by AWS CodeDeploy.",
         "correct": false
@@ -8917,18 +9052,43 @@
     <script>
         let currentQuestionIndex = 0;
         let selectedAnswers = [];
-        
+
+        // sessionHistory[questionIndex] = 'correct' | 'incorrect' | undefined
+        const sessionHistory = {};
+
         function initQuiz() {
-            document.getElementById('totalQuestions').textContent = awsQuestions.length;
+            const total = awsQuestions.length;
+            document.getElementById('totalQuestions').textContent = total;
+            document.getElementById('totalQuestions2').textContent = total;
+            updateStats();
             showQuestion(0);
         }
-        
+
+        function updateStats() {
+            const total = awsQuestions.length;
+            let correct = 0, incorrect = 0;
+            Object.values(sessionHistory).forEach(v => {
+                if (v === 'correct') correct++;
+                else if (v === 'incorrect') incorrect++;
+            });
+            const answered = correct + incorrect;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+            document.getElementById('unansweredCount').textContent = total - answered;
+            const pct = total > 0 ? Math.round((answered / total) * 100) : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+
+            // Update review button
+            document.getElementById('incorrectCountReview').textContent = incorrect;
+            document.getElementById('reviewBtn').disabled = incorrect === 0;
+        }
+
         function showQuestion(index) {
             currentQuestionIndex = index;
             const q = awsQuestions[index];
             selectedAnswers = [];
             document.getElementById('currentQuestion').textContent = index + 1;
-            
+
             let html = '<div class="question"><div class="question-text">Question ' + q.id + ': ' + q.question + '</div>';
             q.options.forEach((opt, i) => {
                 const inputType = q.options.filter(o => o.correct).length > 1 ? 'checkbox' : 'radio';
@@ -8937,14 +9097,28 @@
             html += '</div>';
             document.getElementById('questionContainer').innerHTML = html;
             document.getElementById('result').style.display = 'none';
+
+            // Re-apply history highlight if already answered
+            const prev = sessionHistory[index];
+            if (prev) {
+                const correctIndices = q.options.map((opt, idx) => opt.correct ? idx : -1).filter(idx => idx !== -1);
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, idx) => {
+                    if (correctIndices.includes(idx)) opt.classList.add('correct');
+                });
+                const resultDiv = document.getElementById('result');
+                resultDiv.className = 'result ' + prev;
+                resultDiv.textContent = prev === 'correct' ? 'Correct!' : 'Incorrect. Correct answers are highlighted in green.';
+                resultDiv.style.display = 'block';
+            }
         }
-        
+
         function toggleOption(index) {
             const cb = document.querySelector('input[value="' + index + '"]');
             cb.checked = !cb.checked;
             selectOption(index);
         }
-        
+
         function selectOption(index) {
             const q = awsQuestions[currentQuestionIndex];
             const isMulti = q.options.filter(o => o.correct).length > 1;
@@ -8956,38 +9130,178 @@
                 selectedAnswers = [index];
             }
         }
-        
+
         function checkAnswer() {
             if (selectedAnswers.length === 0) { alert('Please select an answer!'); return; }
             const q = awsQuestions[currentQuestionIndex];
             const correctIndices = q.options.map((opt, idx) => opt.correct ? idx : -1).filter(idx => idx !== -1);
             const isCorrect = selectedAnswers.length === correctIndices.length && selectedAnswers.every(idx => correctIndices.includes(idx));
-            
+
             const options = document.querySelectorAll('.option');
             options.forEach((opt, idx) => {
                 opt.classList.remove('correct', 'incorrect');
                 if (correctIndices.includes(idx)) opt.classList.add('correct');
                 else if (selectedAnswers.includes(idx)) opt.classList.add('incorrect');
             });
-            
+
             const resultDiv = document.getElementById('result');
-            resultDiv.className = 'result ' + (isCorrect ? 'correct' : 'incorrect');
+            const outcome = isCorrect ? 'correct' : 'incorrect';
+            resultDiv.className = 'result ' + outcome;
             resultDiv.textContent = isCorrect ? 'Correct!' : 'Incorrect. Correct answers are highlighted in green.';
             resultDiv.style.display = 'block';
+
+            // Record in history (only update if not already answered correctly)
+            if (!sessionHistory[currentQuestionIndex] || sessionHistory[currentQuestionIndex] === 'incorrect') {
+                sessionHistory[currentQuestionIndex] = outcome;
+            }
+            updateStats();
+            refreshHistoryIfVisible();
+
+            // If in review mode and this question was just corrected, refresh the queue
+            if (inReviewMode && outcome === 'correct') {
+                refreshReviewQueue();
+                updateReviewProgress();
+                if (reviewQueue.length === 0) {
+                    exitReview();
+                    alert('Great job! All incorrect questions have been answered correctly.');
+                }
+            }
         }
-        
+
         function nextQuestion() {
             if (currentQuestionIndex < awsQuestions.length - 1) showQuestion(currentQuestionIndex + 1);
         }
-        
+
         function previousQuestion() {
             if (currentQuestionIndex > 0) showQuestion(currentQuestionIndex - 1);
         }
-        
+
         function randomQuestion() {
             showQuestion(Math.floor(Math.random() * awsQuestions.length));
         }
-        
+
+        function gotoQuestion() {
+            const input = document.getElementById('gotoInput');
+            const num = parseInt(input.value, 10);
+            if (isNaN(num) || num < 1 || num > awsQuestions.length) {
+                alert('Please enter a valid question number between 1 and ' + awsQuestions.length + '.');
+                return;
+            }
+            // Find by display index (sequential) — input is 1-based index
+            showQuestion(num - 1);
+            input.value = '';
+        }
+
+        function resetSession() {
+            if (!confirm('Reset all session history? This cannot be undone.')) return;
+            Object.keys(sessionHistory).forEach(k => delete sessionHistory[k]);
+            updateStats();
+            refreshHistoryIfVisible();
+            showQuestion(currentQuestionIndex);
+        }
+
+        // ---- History panel ----
+        let historyVisible = false;
+
+        function toggleHistory() {
+            historyVisible = !historyVisible;
+            const btn = document.querySelector('.history-toggle');
+            const list = document.getElementById('historyList');
+            if (historyVisible) {
+                btn.textContent = '📋 Hide Answer History';
+                list.style.display = 'block';
+                renderHistory();
+            } else {
+                btn.textContent = '📋 Show Answer History';
+                list.style.display = 'none';
+            }
+        }
+
+        function refreshHistoryIfVisible() {
+            if (historyVisible) renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const entries = Object.entries(sessionHistory);
+            if (entries.length === 0) {
+                list.innerHTML = '<div style="padding:14px;color:#888;text-align:center;">No questions answered yet.</div>';
+                return;
+            }
+            // Sort by question index
+            entries.sort((a, b) => Number(a[0]) - Number(b[0]));
+            list.innerHTML = entries.map(([idx, outcome]) => {
+                const q = awsQuestions[Number(idx)];
+                const icon = outcome === 'correct' ? '✔' : '✘';
+                const shortQ = q.question.length > 90 ? q.question.substring(0, 90) + '…' : q.question;
+                return '<div class="history-item" onclick="showQuestion(' + idx + ')" title="Go to this question">'
+                    + '<span class="hi-status ' + outcome + '">' + icon + '</span>'
+                    + '<span class="hi-qnum">Q' + q.id + '</span>'
+                    + '<span class="hi-text">' + shortQ + '</span>'
+                    + '</div>';
+            }).join('');
+        }
+
+        // ---- Review mode ----
+        let reviewQueue = [];
+        let reviewIndex = 0;
+        let inReviewMode = false;
+
+        function startReview() {
+            reviewQueue = Object.entries(sessionHistory)
+                .filter(([, v]) => v === 'incorrect')
+                .map(([k]) => Number(k))
+                .sort((a, b) => a - b);
+            if (reviewQueue.length === 0) return;
+            reviewIndex = 0;
+            inReviewMode = true;
+            document.getElementById('reviewBanner').style.display = 'flex';
+            updateReviewProgress();
+            showQuestion(reviewQueue[reviewIndex]);
+        }
+
+        function reviewNext() {
+            if (reviewIndex < reviewQueue.length - 1) {
+                reviewIndex++;
+                // Refresh queue in case some were corrected during review
+                refreshReviewQueue();
+                if (reviewQueue.length === 0) { exitReview(); return; }
+                reviewIndex = Math.min(reviewIndex, reviewQueue.length - 1);
+                updateReviewProgress();
+                showQuestion(reviewQueue[reviewIndex]);
+            }
+        }
+
+        function reviewPrev() {
+            if (reviewIndex > 0) {
+                reviewIndex--;
+                updateReviewProgress();
+                showQuestion(reviewQueue[reviewIndex]);
+            }
+        }
+
+        function refreshReviewQueue() {
+            const currentQ = reviewQueue[reviewIndex];
+            reviewQueue = Object.entries(sessionHistory)
+                .filter(([, v]) => v === 'incorrect')
+                .map(([k]) => Number(k))
+                .sort((a, b) => a - b);
+            // Try to keep position near where we were
+            const newPos = reviewQueue.indexOf(currentQ);
+            reviewIndex = newPos >= 0 ? newPos : Math.min(reviewIndex, reviewQueue.length - 1);
+        }
+
+        function updateReviewProgress() {
+            if (reviewQueue.length === 0) return;
+            document.getElementById('reviewProgress').textContent =
+                'Question ' + (reviewIndex + 1) + ' of ' + reviewQueue.length + ' incorrect';
+        }
+
+        function exitReview() {
+            inReviewMode = false;
+            document.getElementById('reviewBanner').style.display = 'none';
+        }
+
         window.onload = initQuiz;
     </script>
 </body>
